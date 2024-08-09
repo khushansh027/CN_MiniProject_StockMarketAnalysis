@@ -39,6 +39,61 @@ async function renderChart() {
     document.getElementById("waiting").style.display = "none";
   }
 
+  // let options = {
+  //   series: [
+  //     {
+  //       name: "AAPL",
+  //       data: createChart(
+  //         stockChartsData,
+  //         stockStatsData,
+  //         stockSummary,
+  //         "AAPL",
+  //         "5y"
+  //       ),
+  //     },
+  //   ],
+  //   chart: {
+  //     id: "area-datetime",
+  //     type: "area",
+  //     height: 350,
+  //     zoom: {
+  //       autoScaleYaxis: true,
+  //     },
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   markers: {
+  //     size: 2,
+  //     style: "hollow",
+  //   },
+  //   xaxis: {
+  //     type: "datetime",
+  //     min: createChart(
+  //       stockChartsData,
+  //       stockStatsData,
+  //       stockSummary,
+  //       "AAPL",
+  //       "5y"
+  //     )[0][0],
+  //     tickAmount: 10,
+  //   },
+  //   tooltip: {
+  //     x: {
+  //       format: "dd MMM yyyy",
+  //     },
+  //   },
+  //   fill: {
+  //     type: "gradient",
+  //     gradient: {
+  //       shadeIntensity: 1,
+  //       opacityFrom: 0.7,
+  //       opacityTo: 0.9,
+  //       stops: [0, 100],
+  //     },
+  //   },
+  // };
+
   let options = {
     series: [
       {
@@ -77,6 +132,18 @@ async function renderChart() {
         "5y"
       )[0][0],
       tickAmount: 10,
+      labels: {
+        style: {
+          colors: "#FFFFFF",  // White color for x-axis labels
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#FFFFFF",  // White color for y-axis labels
+        },
+      },
     },
     tooltip: {
       x: {
@@ -93,7 +160,7 @@ async function renderChart() {
       },
     },
   };
-
+  
   let chart = new ApexCharts(
     document.querySelector("#chart-timeline"),
     options
@@ -200,9 +267,11 @@ function populateStockList(
     stockDetailsElement.classList.add("stockDetailsDiv");
 
     const stockButton = document.createElement("button");
+    stockButton.classList.add("stockButton");
     const stockPriceElement = document.createElement("span"),
       stockProfitElement = document.createElement("span");
-
+      stockPriceElement.classList.add("stockPriceElement");
+      stockProfitElement.classList.add("stockProfitElement");
     stockButton.textContent = val;
     stockPriceElement.textContent = `$${stockStatsData.stocksStatsData[0][
       `${val}`
@@ -211,7 +280,7 @@ function populateStockList(
       `${val}`
     ].profit.toFixed(2)}%`;
     if (stockStatsData.stocksStatsData[0][`${val}`].profit > 0)
-      stockProfitElement.style.color = "green";
+      stockProfitElement.style.color = "#8edf6b";
     else stockProfitElement.style.color = "red";
 
     stockDetailsElement.append(
@@ -288,3 +357,11 @@ function createChart(
 }
 
 renderChart();
+
+// css
+module.exports = {
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
+}
